@@ -23,7 +23,7 @@ export function HeroSection() {
       id="home"
       className="relative w-full max-w-7xl mx-auto px-4 py-20 overflow-hidden min-h-screen flex items-center"
     >
-      <div className="absolute inset-0 pointer-events-none z-0">
+      <div className="absolute -inset-32 md:inset-0 pointer-events-none z-0">
         <LiquidMetal {...liquidMetalPresets[2]} style={{ position: "absolute", inset: 0 }} />
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/55 to-black" />
       </div>
