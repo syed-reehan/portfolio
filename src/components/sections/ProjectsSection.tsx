@@ -84,7 +84,11 @@ export function ProjectsSection() {
               totalCards={projects.length}
               onHover={setActiveIndex}
               onClick={setActiveIndex}
-              className="w-[248px] sm:w-[280px]"
+              className={
+                project.title === "Algorithmic CLI Suite"
+                  ? "w-[248px] sm:w-[280px] h-[390px] sm:h-[450px]"
+                  : "w-[248px] sm:w-[280px]"
+              }
             />
           ))}
         </motion.div>
