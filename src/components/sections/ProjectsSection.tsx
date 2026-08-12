@@ -69,7 +69,7 @@ export function ProjectsSection() {
         </p>
 
         <motion.div
-          className="mt-10 flex justify-center items-center relative h-[360px] sm:h-[430px] w-full overflow-visible"
+          className="mt-10 flex justify-center items-center relative h-[480px] sm:h-[540px] w-full overflow-visible"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45 }}
@@ -84,7 +84,9 @@ export function ProjectsSection() {
               totalCards={projects.length}
               onHover={setActiveIndex}
               onClick={setActiveIndex}
-              className="w-[248px] sm:w-[280px]"
+              className={project.title === "Algorithmic CLI Suite"
+                ? "h-[420px] sm:h-[470px] w-[248px] sm:w-[280px]"
+                : "w-[248px] sm:w-[280px]"}
             />
           ))}
         </motion.div>
