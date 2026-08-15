@@ -48,7 +48,7 @@ const projects: Project[] = [
     cta: "PREVIEW",
     link: "https://github.com/",
     image:
-      "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=80",
+      "https://github.com/syed-reehan/portfolio/blob/main/public/AI-Driven%20Logic%20LOGO.png?raw=true",
   },
 ];
 
