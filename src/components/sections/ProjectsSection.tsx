@@ -34,7 +34,7 @@ const projects: Project[] = [
     highlight:
       "Focuses on strong foundational concepts like condition handles and robust error management without external frameworks.",
     cta: "REPO",
-    link: "https://algorithmic-cli-suite.vercel.app/",
+    link: "https://algorithmic-cli-suite-v3.vercel.app/",
     image:
       "https://github.com/syed-reehan/portfolio/blob/main/public/Algorithmic%20CLI%20Suite%20LOGO.png?raw=true",
   },
