@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useState } from "react";
 import { motion } from "framer-motion";
 
@@ -54,6 +55,17 @@ const projects: Project[] = [
 
 export function ProjectsSection() {
   const [activeIndex, setActiveIndex] = useState(1);
+export function ProjectsSection() {
+  const [activeIndex, setActiveIndex] = useState(1);
+
+  // Add the useEffect here (Line 58)
+  useEffect(() => {
+    const autoPlay = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % projects.length);
+    }, 3000); 
+
+    return () => clearInterval(autoPlay);
+  }, [projects.length]);
 
   return (
     <section id="projects" className="relative w-full max-w-7xl mx-auto px-4 py-20 overflow-hidden">
