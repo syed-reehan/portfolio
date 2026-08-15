@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { type TouchEvent, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
 import { AnimatedCard } from "../ui/animated-card.tsx";
@@ -54,6 +54,34 @@ const projects: Project[] = [
 
 export function ProjectsSection() {
   const [activeIndex, setActiveIndex] = useState(1);
+  const touchStartXRef = useRef<number | null>(null);
+
+  const handleTouchStart = (event: TouchEvent<HTMLDivElement>) => {
+    touchStartXRef.current = event.changedTouches[0]?.clientX ?? null;
+  };
+
+  const handleTouchEnd = (event: TouchEvent<HTMLDivElement>) => {
+    if (touchStartXRef.current === null) return;
+
+    const touchEndX = event.changedTouches[0]?.clientX;
+    if (typeof touchEndX !== "number") {
+      touchStartXRef.current = null;
+      return;
+    }
+
+    const swipeDistance = touchEndX - touchStartXRef.current;
+    const swipeThreshold = 40;
+
+    if (Math.abs(swipeDistance) >= swipeThreshold) {
+      setActiveIndex((currentIndex) =>
+        swipeDistance < 0
+          ? (currentIndex + 1) % projects.length
+          : (currentIndex - 1 + projects.length) % projects.length,
+      );
+    }
+
+    touchStartXRef.current = null;
+  };
 
   return (
     <section id="projects" className="relative w-full max-w-7xl mx-auto px-4 py-20 overflow-hidden">
@@ -74,6 +102,11 @@ export function ProjectsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45 }}
           viewport={{ once: true }}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+          onTouchCancel={() => {
+            touchStartXRef.current = null;
+          }}
         >
           {projects.map((project, idx) => (
             <AnimatedCard
