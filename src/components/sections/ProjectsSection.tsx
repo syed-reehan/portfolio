@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 
 import { AnimatedCard } from "../ui/animated-card.tsx";
@@ -54,6 +54,28 @@ const projects: Project[] = [
 
 export function ProjectsSection() {
   const [activeIndex, setActiveIndex] = useState(1);
+  const SWIPE_THRESHOLD = 48;
+  const touchStartXRef = useRef<number | null>(null);
+
+  const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+    touchStartXRef.current = event.touches[0]?.clientX ?? null;
+  };
+
+  const handleTouchEnd = (event: React.TouchEvent<HTMLDivElement>) => {
+    const startX = touchStartXRef.current;
+    const endX = event.changedTouches[0]?.clientX;
+    touchStartXRef.current = null;
+
+    if (startX === null || typeof endX !== "number") return;
+
+    const deltaX = endX - startX;
+    if (Math.abs(deltaX) < SWIPE_THRESHOLD) return;
+
+    setActiveIndex((prevIndex) => {
+      if (deltaX < 0) return (prevIndex + 1) % projects.length;
+      return (prevIndex - 1 + projects.length) % projects.length;
+    });
+  };
 
   return (
     <section id="projects" className="relative w-full max-w-7xl mx-auto px-4 py-20 overflow-hidden">
@@ -70,6 +92,12 @@ export function ProjectsSection() {
 
         <motion.div
           className="mt-10 flex justify-center items-center relative h-[480px] sm:h-[540px] w-full overflow-visible"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+          onTouchCancel={() => {
+            touchStartXRef.current = null;
+          }}
+          style={{ touchAction: "pan-y" }}
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45 }}
