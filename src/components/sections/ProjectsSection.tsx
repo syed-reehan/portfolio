@@ -66,11 +66,8 @@ export function ProjectsSection() {
 
     return () => clearInterval(autoPlay);
   }, [projects.length]);
-   return (
-    <section id="projects" className="relative w-full max-w-7xl mx-auto px-4 py-20 overflow-hidden">
-// ... rest of your code
-
-  return (
+  
+ return (
     <section id="projects" className="relative w-full max-w-7xl mx-auto px-4 py-20 overflow-hidden">
       <div className="absolute inset-0 pointer-events-none z-0">
         <div className="absolute top-0 right-0 h-72 w-72 rounded-full bg-white/8 blur-3xl" />
