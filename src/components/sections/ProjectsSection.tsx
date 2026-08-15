@@ -56,25 +56,40 @@ export function ProjectsSection() {
   const [activeIndex, setActiveIndex] = useState(1);
   const SWIPE_THRESHOLD = 48;
   const touchStartXRef = useRef<number | null>(null);
+  const didSwipeRef = useRef(false);
 
   const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+    didSwipeRef.current = false;
     touchStartXRef.current = event.touches[0]?.clientX ?? null;
   };
 
-  const handleTouchEnd = (event: React.TouchEvent<HTMLDivElement>) => {
+  const handleTouchMove = (event: React.TouchEvent<HTMLDivElement>) => {
     const startX = touchStartXRef.current;
-    const endX = event.changedTouches[0]?.clientX;
-    touchStartXRef.current = null;
+    const currentX = event.touches[0]?.clientX;
 
-    if (startX === null || typeof endX !== "number") return;
+    if (startX === null || typeof currentX !== "number") return;
 
-    const deltaX = endX - startX;
+    const deltaX = currentX - startX;
     if (Math.abs(deltaX) < SWIPE_THRESHOLD) return;
 
+    didSwipeRef.current = true;
+    touchStartXRef.current = null;
     setActiveIndex((prevIndex) => {
       if (deltaX < 0) return (prevIndex + 1) % projects.length;
       return (prevIndex - 1 + projects.length) % projects.length;
     });
+  };
+
+  const handleTouchEnd = () => {
+    touchStartXRef.current = null;
+  };
+
+  const handleCardClick = (index: number) => {
+    if (didSwipeRef.current) {
+      didSwipeRef.current = false;
+      return;
+    }
+    setActiveIndex(index);
   };
 
   return (
@@ -93,9 +108,11 @@ export function ProjectsSection() {
         <motion.div
           className="mt-10 flex justify-center items-center relative h-[480px] sm:h-[540px] w-full overflow-visible"
           onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
           onTouchCancel={() => {
             touchStartXRef.current = null;
+            didSwipeRef.current = false;
           }}
           style={{ touchAction: "pan-y" }}
           initial={{ opacity: 0, y: 20 }}
@@ -111,7 +128,7 @@ export function ProjectsSection() {
               activeIndex={activeIndex}
               totalCards={projects.length}
               onHover={setActiveIndex}
-              onClick={setActiveIndex}
+              onClick={handleCardClick}
               className={project.title === "Algorithmic CLI Suite"
                 ? "h-[420px] sm:h-[470px] w-[248px] sm:w-[280px]"
                 : "w-[248px] sm:w-[280px]"}
