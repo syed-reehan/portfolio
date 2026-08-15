@@ -24,7 +24,7 @@ const projects: Project[] = [
     cta: "LIVE DEMO",
     link: "https://github.com/",
     image:
-      "https://github.com/syed-reehan/portfolio/blob/main/public/Algorithmic%20CLI%20Suite%20LOGO.png?raw=true",
+      "https://github.com/syed-reehan/portfolio/blob/main/public/Developer%20Portfolio%20LOGO.png?raw=true",
   },
   {
     title: "Algorithmic CLI Suite",
