@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useState } from "react";
 import { motion } from "framer-motion";
 
 import { AnimatedCard } from "../ui/animated-card.tsx";
@@ -55,10 +54,8 @@ const projects: Project[] = [
 
 export function ProjectsSection() {
   const [activeIndex, setActiveIndex] = useState(1);
-export function ProjectsSection() {
-  const [activeIndex, setActiveIndex] = useState(1);
 
-  // Add the useEffect here (Line 58)
+ // Add the useEffect here (Line 58)
   useEffect(() => {
     const autoPlay = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % projects.length);
