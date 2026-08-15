@@ -74,17 +74,18 @@ export function ProjectsSection() {
   dragConstraints={{ left: 0, right: 0 }}
   dragElastic={0.2}
   onDragEnd={(_, info) => {
-    const swipeThreshold = 50;
-    const swipePower = info.offset.x;
+  const offset = info.offset.x;
+  const velocity = info.velocity.x;
 
-    if (swipePower < -swipeThreshold) {
-      // Swiped left -> Next project
-      setActiveIndex((prev) => Math.min(prev + 1, projects.length - 1));
-    } else if (swipePower > swipeThreshold) {
-      // Swiped right -> Previous project
-      setActiveIndex((prev) => Math.max(prev - 1, 0));
-    }
-  }}
+  // Trigger swipe if dragged past 50px OR flicked faster than 500px/s
+  if (offset < -50 || velocity < -500) {
+    // Swiped left -> Next project
+    setActiveIndex((prev) => Math.min(prev + 1, projects.length - 1));
+  } else if (offset > 50 || velocity > 500) {
+    // Swiped right -> Previous project
+    setActiveIndex((prev) => Math.max(prev - 1, 0));
+  }
+}}
   initial={{ opacity: 0, y: 20 }}
   whileInView={{ opacity: 1, y: 0 }}
   transition={{ duration: 0.45 }}
