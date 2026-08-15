@@ -68,28 +68,45 @@ export function ProjectsSection() {
           learning.
         </p>
 
-        <motion.div
-          className="mt-10 flex justify-center items-center relative h-[480px] sm:h-[540px] w-full overflow-visible"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45 }}
-          viewport={{ once: true }}
-        >
-          {projects.map((project, idx) => (
-            <AnimatedCard
-              key={project.title}
-              project={project}
-              index={idx}
-              activeIndex={activeIndex}
-              totalCards={projects.length}
-              onHover={setActiveIndex}
-              onClick={setActiveIndex}
-              className={project.title === "Algorithmic CLI Suite"
-                ? "h-[420px] sm:h-[470px] w-[248px] sm:w-[280px]"
-                : "w-[248px] sm:w-[280px]"}
-            />
-          ))}
-        </motion.div>
+       <motion.div
+  className="mt-10 flex justify-center items-center relative h-[480px] sm:h-[540px] w-full overflow-visible touch-pan-y cursor-grab active:cursor-grabbing"
+  drag="x"
+  dragConstraints={{ left: 0, right: 0 }}
+  dragElastic={0.2}
+  onDragEnd={(_, info) => {
+    const swipeThreshold = 50;
+    const swipePower = info.offset.x;
+
+    if (swipePower < -swipeThreshold) {
+      // Swiped left -> Next project
+      setActiveIndex((prev) => Math.min(prev + 1, projects.length - 1));
+    } else if (swipePower > swipeThreshold) {
+      // Swiped right -> Previous project
+      setActiveIndex((prev) => Math.max(prev - 1, 0));
+    }
+  }}
+  initial={{ opacity: 0, y: 20 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.45 }}
+  viewport={{ once: true }}
+>
+  {projects.map((project, idx) => (
+    <AnimatedCard
+      key={project.title}
+      project={project}
+      index={idx}
+      activeIndex={activeIndex}
+      totalCards={projects.length}
+      onHover={setActiveIndex}
+      onClick={setActiveIndex}
+      className={
+        project.title === "Algorithmic CLI Suite"
+          ? "h-[420px] sm:h-[470px] w-[248px] sm:w-[280px]"
+          : "w-[248px] sm:w-[280px]"
+      }
+    />
+  ))}
+</motion.div> 
       </div>
     </section>
   );
