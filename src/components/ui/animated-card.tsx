@@ -41,7 +41,7 @@ export function AnimatedCard({
   onClick,
   className,
 }: AnimatedCardProps) {
-  const HOVER_DELAY = 500;
+  const HOVER_DELAY = 1000;
   const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
