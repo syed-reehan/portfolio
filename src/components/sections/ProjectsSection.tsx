@@ -36,7 +36,7 @@ const projects: Project[] = [
     cta: "REPO",
     link: "https://algorithmic-cli-suite.vercel.app/",
     image:
-      "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80",
+      "https://github.com/syed-reehan/portfolio/blob/main/public/Algorithmic%20CLI%20Suite%20LOGO.png?raw=true",
   },
   {
     title: "AI-Driven Logic Explainer",
