@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
+import { useEffect, useRef } from "react";
 
 import { cn } from "../../lib/utils";
 
@@ -40,6 +41,16 @@ export function AnimatedCard({
   onClick,
   className,
 }: AnimatedCardProps) {
+  const hoverTimerRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (hoverTimerRef.current !== null) {
+        clearTimeout(hoverTimerRef.current);
+      }
+    };
+  }, []);
+
   const offset = signedOffset(index, activeIndex, totalCards);
 
   const left = { x: -128, rotate: -6, scale: 0.9, zIndex: 30 };
@@ -56,7 +67,21 @@ export function AnimatedCard({
   return (
     <motion.article
       layout
-      onMouseEnter={() => onHover(index)}
+      onMouseEnter={() => {
+        if (hoverTimerRef.current !== null) {
+          clearTimeout(hoverTimerRef.current);
+        }
+        hoverTimerRef.current = window.setTimeout(() => {
+          onHover(index);
+          hoverTimerRef.current = null;
+        }, 1000);
+      }}
+      onMouseLeave={() => {
+        if (hoverTimerRef.current !== null) {
+          clearTimeout(hoverTimerRef.current);
+          hoverTimerRef.current = null;
+        }
+      }}
       onClick={() => onClick(index)}
       animate={{
         x: finalX,
