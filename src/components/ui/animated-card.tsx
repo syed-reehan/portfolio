@@ -21,6 +21,7 @@ export type AnimatedCardProps = {
   totalCards: number;
   onHover: (index: number) => void;
   onClick: (index: number) => void;
+  onPausedChange: (paused: boolean) => void;
   className?: string;
 };
 
@@ -39,6 +40,7 @@ export function AnimatedCard({
   totalCards,
   onHover,
   onClick,
+  onPausedChange,
   className,
 }: AnimatedCardProps) {
   const HOVER_DELAY = 500;
@@ -55,6 +57,7 @@ export function AnimatedCard({
   );
 
   const handleMouseEnter = () => {
+    onPausedChange(true);
     if (hoverTimerRef.current) {
       clearTimeout(hoverTimerRef.current);
     }
@@ -62,11 +65,15 @@ export function AnimatedCard({
   };
 
   const handleMouseLeave = () => {
+    onPausedChange(false);
     if (hoverTimerRef.current) {
       clearTimeout(hoverTimerRef.current);
       hoverTimerRef.current = null;
     }
   };
+
+  const handleTouchStart = () => onPausedChange(true);
+  const handleTouchEnd = () => onPausedChange(false);
 
   const left = { x: -128, rotate: -6, scale: 0.9, zIndex: 30 };
   const center = { x: 0, rotate: 0, scale: 1.05, zIndex: 50 };
@@ -84,6 +91,9 @@ export function AnimatedCard({
       layout
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      onTouchCancel={handleTouchEnd}
       onClick={() => onClick(index)}
       animate={{
         x: finalX,
@@ -103,7 +113,7 @@ export function AnimatedCard({
     >
       <div className="relative flex h-full flex-col">
         <div className="relative h-24 sm:h-28 flex-none">
-          <img src={project.image} alt={project.title} className="h-full w-full object-cover" />
+          <img src={project.image} alt={project.title} loading="lazy" decoding="async" className="h-full w-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent" />
         </div>
         <div className="flex h-full flex-1 flex-col p-3 sm:p-4">

@@ -15,16 +15,15 @@ type Project = {
 
 const projects: Project[] = [
   {
-    title: "Developer Portfolio Architecture",
-    stack: "HTML5 • CSS3 • MODERN LAYOUTS",
+    title: "AI Creator Studio",
+    stack: "React • Cloudflare Workers • Gemini API • Hugging Face",
     description:
-      "A high-performance personal brand storefront designed from scratch to host and showcase live software assets and developer credentials.",
+      "An end-to-end serverless AI engine that instantly generates platform-tailored SEO, viral hooks, and high-CTR typography thumbnails for YouTube, TikTok, and Instagram.",
     highlight:
-      "Emphasizes visual clean lines, responsive asset scaling, and direct integration with version control systems.",
-    cta: "LIVE DEMO",
-    link: "https://github.com/",
-    image:
-      "https://github.com/syed-reehan/portfolio/blob/main/public/Developer%20Portfolio%20LOGO.png?raw=true",
+      "Combines LLM-powered content generation with a fully serverless edge deployment for instant global delivery and zero cold starts.",
+    cta: "TRY STUDIO",
+    link: "https://creator-studio-rosy-gamma.vercel.app",
+    image: "/AI Creator Studio LOGO.png",
   },
   {
     title: "Algorithmic CLI Suite",
@@ -33,7 +32,7 @@ const projects: Project[] = [
       "A collection of terminal-based Python utilities engineered to automate daily computing tasks through clean, optimized logic loops. Includes a secure password generator and interactive task registry.",
     highlight:
       "Focuses on strong foundational concepts like condition handles and robust error management without external frameworks.",
-    cta: "REPO",
+    cta: "TRY SUITE",
     link: "https://algorithmic-cli-suite-v3.vercel.app/",
     image:
       "https://github.com/syed-reehan/portfolio/blob/main/public/Algorithmic%20CLI%20Suite%20LOGO.png?raw=true",
@@ -54,15 +53,17 @@ const projects: Project[] = [
 
 export function ProjectsSection() {
   const [activeIndex, setActiveIndex] = useState(1);
+  const [isPaused, setIsPaused] = useState(false);
 
- // Add the useEffect here (Line 58)
   useEffect(() => {
+    if (isPaused) return;
+
     const autoPlay = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % projects.length);
-    }, 3000); 
+    }, 3000);
 
     return () => clearInterval(autoPlay);
-  }, [projects.length]);
+  }, [isPaused, projects.length]);
   
  return (
     <section id="projects" className="relative w-full max-w-7xl mx-auto px-4 py-20 overflow-hidden">
@@ -109,6 +110,7 @@ export function ProjectsSection() {
       totalCards={projects.length}
       onHover={setActiveIndex}
       onClick={setActiveIndex}
+      onPausedChange={setIsPaused}
       className={
         project.title === "Algorithmic CLI Suite"
           ? "h-[420px] sm:h-[470px] w-[248px] sm:w-[280px]"

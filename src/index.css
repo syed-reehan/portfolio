@@ -29,3 +29,11 @@ a {
   text-decoration: none;
 }
 
+#about,
+#projects,
+#skills,
+#contact {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 800px;
+}
+

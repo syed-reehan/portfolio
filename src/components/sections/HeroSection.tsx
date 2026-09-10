@@ -5,8 +5,25 @@ import { Button } from "../ui/button";
 
 const titles = ["AI Utility Developer", "Tech Enthusiast", "Student", "Entrepreneur"];
 
+function useMediaQuery(query: string) {
+  const [matches, setMatches] = useState(() =>
+    typeof window !== "undefined" ? window.matchMedia(query).matches : false,
+  );
+
+  useEffect(() => {
+    const mql = window.matchMedia(query);
+    const handleChange = () => setMatches(mql.matches);
+    handleChange();
+    mql.addEventListener("change", handleChange);
+    return () => mql.removeEventListener("change", handleChange);
+  }, [query]);
+
+  return matches;
+}
+
 export function HeroSection() {
   const [index, setIndex] = useState(0);
+  const isMobile = useMediaQuery("(max-width: 767px)");
 
   useEffect(() => {
     const id = window.setInterval(() => {
@@ -24,7 +41,11 @@ export function HeroSection() {
       className="relative w-full max-w-7xl mx-auto px-4 py-20 overflow-hidden min-h-screen flex items-center"
     >
       <div className="absolute -inset-32 md:inset-0 pointer-events-none z-0">
-        <LiquidMetal {...liquidMetalPresets[2]} style={{ position: "absolute", inset: 0 }} />
+        <LiquidMetal
+          {...liquidMetalPresets[2]}
+          {...(isMobile ? { maxPixelCount: 1280 * 720 } : {})}
+          style={{ position: "absolute", inset: 0 }}
+        />
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/55 to-black" />
       </div>
 
