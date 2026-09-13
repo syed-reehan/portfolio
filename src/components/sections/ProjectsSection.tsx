@@ -45,7 +45,7 @@ const projects: Project[] = [
     highlight:
       "Demonstrates early exposure to prompt engineering frameworks and integrating AI utility solutions into developer workflows.",
     cta: "PREVIEW",
-    link: "",
+    link: "https://github.com/syed-reehan/",
     image:
       "https://github.com/syed-reehan/portfolio/blob/main/public/AI-Driven%20Logic%20LOGO.png?raw=true",
   },
